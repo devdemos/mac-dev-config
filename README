@@ -1,0 +1,17 @@
+
+# Oh my ZSH Plugins 
+# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
+
+
+brew tap sambadevi/powerlevel9k
+brew install powerlevel9k
+
+brew install zsh-history-substring-search
+echo 'source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh' >> ~/.zshrc
+
+# install colorls
+brew tap homebrew/cask-fonts
+brew cask install font-hack-nerd-font
+gem install colorls
+
+brew install zsh-syntax-highlighting
