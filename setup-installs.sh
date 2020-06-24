@@ -77,24 +77,29 @@ brew cask install google-cloud-sdk
 echo "#####################"
 echo "Installing Kubernetes Tools"
 echo "#####################"
-echo "-->  Kubectl"  
+echo "--> Installing...."  
 brew install kubernetes-cli
 brew install kubectx
 brew install kustomize
-echo "-->  Helm"
+brew install stern
+echo "--> Installing.... Helm" 
 brew install helm
-echo "--> EKS Tools"
+echo "--> Installing.... EKS Tools" 
 brew tap weaveworks/tap
 brew install weaveworks/tap/eksctl
 
 echo "#####################"
-echo "Installing Open Policy Agent" 
-brew install opa
+echo "Installing Istioctl Tools" 
+brew install istioctl
 
 echo "#####################"
-echo "Installing Terraform" 
-brew install terraform
+echo "Installing Open Policy Agent Tools" 
+brew install opa
+brew install instrumenta/instrumenta/conftest
 
+echo "#####################"
+echo "Installing Terraform Tools" 
+brew install terraform
 echo ""
 echo ""
 echo "#####################"
