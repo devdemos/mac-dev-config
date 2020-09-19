@@ -46,10 +46,12 @@ echo "Installing tools"
 echo "#####################"
 brew install bat
 brew install fish
+brew install gh
 brew install git
 brew install htop
 brew install nmap
 brew install python@3
+brew install golang
 brew install terminal-notifier
 brew install tree
 brew install wget
