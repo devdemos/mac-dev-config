@@ -1,0 +1,82 @@
+version: '3'
+
+tasks:
+  install-vim-profile:
+    desc: Installs Custom Vim Profile
+    dir: shell
+    cmds:
+      - cp shell/vim_profile ~/.vimrc_
+
+  check-zsh:
+    desc: Checks for zsh, Installs if missing
+    dir: shell
+    cmds:
+      - |
+        if [ command -v zsh >/dev/null 2>&1 ]
+        then
+            echo "Not Present, Installing ...."
+            brew install zsh \
+            curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+            
+        else
+            echo "Zsh is already installed"
+        fi
+
+  zsh-plugins:
+    desc: Installs zsh plugins
+    dir: shell
+    deps: [check-zsh]
+    cmds:
+      - git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+      - git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions 
+      - git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+      - brew tap sambadevi/powerlevel9k
+      - brew install romkatv/powerlevel10k/powerlevel10k
+      - echo 'source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
+      - brew tap homebrew/cask-fonts
+      - brew cask install font-hack-nerd-font
+      - gem install colorls
+
+  config-zsh:
+    desc: Sets up zsh config
+    dir: shell
+    deps: [check-zsh]
+    cmds:
+     - echo "Backing up existing config file"
+     - mkdir ~/.backup 
+     - cp ~/.zshrc ~/.backup/.zshrc.backup
+     - cp ~/.p10k.zsh ~/.backup/.p10k.zsh.backup
+     - yes | cp -rf shell/zsh_profile ~/.zshrc
+     - yes | cp -rf shell/zsh_p10k_profile.zsh ~/.p10k.zsh
+     - cp -rf shell/custom_zsh_plugins/ ~/.oh-my-zsh/custom/plugins/
+     - echo "Setting default shell to ZSH"
+     - chsh -s /bin/zsh
+
+
+  install-apps:
+    desc: Sets up zsh config
+    dir: shell
+    cmds: 
+      - | 
+        while read p; do
+          brew install "$p"
+        done <apps.txt
+
+  install-iTerm2:
+    desc: Installs iTerm2
+    dir: iTerm2
+    cmds: 
+    - brew cask install iterm2
+    - cd ~/Downloads
+    - curl -O https://raw.githubusercontent.com/MartinSeeler/iterm2-material-design/master/material-design-colors.itermcolors
+    - cp Profiles.json ~/Downloads
+
+  install-all:
+    desc: Sets Up Workstation Shell, Apps & Tools
+    cmds:
+      - task: check-zsh
+      - task: zsh-plugins
+      - task: config-zsh
+      - task: install-vim-profile
+      - task: install-apps
+      - task: install-iTerm2
