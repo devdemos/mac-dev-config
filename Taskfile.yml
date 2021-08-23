@@ -5,7 +5,7 @@ tasks:
     desc: Installs Custom Vim Profile
     dir: shell
     cmds:
-      - cp shell/vim_profile ~/.vimrc
+      - cp vim_profile ~/.vimrc
 
   check-zsh:
     desc: Checks for zsh, Installs if missing
